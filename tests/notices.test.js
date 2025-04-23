@@ -4,9 +4,6 @@ const db = require('../src/models');
 
 describe('Pruebas de Notices', () => {
   beforeAll(async () => {
-    // Esperar a que la conexión esté lista
-    await db.sequelize.authenticate();
-    
     // Datos de prueba
     await db.notices.create({
       title: 'Test Notice',

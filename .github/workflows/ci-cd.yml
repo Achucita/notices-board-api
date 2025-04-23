@@ -4,6 +4,16 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: test_db
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    
     steps:
     - uses: actions/checkout@v4
     
@@ -20,7 +30,7 @@ jobs:
       run: npm test
       env:
         NODE_ENV: test
-        DB_HOST: 127.0.0.1
+        DB_HOST: localhost
         DB_USER: root
         DB_PASSWORD: password
         DB_NAME: test_db
