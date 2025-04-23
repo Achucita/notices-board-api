@@ -2,13 +2,13 @@ const { Sequelize } = require('sequelize');
 const dbConfig = require('../config/db.config');
 
 const sequelize = new Sequelize(
-  dbConfig.DB,
-  dbConfig.USER,
-  dbConfig.PASSWORD,
+  dbConfig.DB || 'notices_db',
+  dbConfig.USER || 'root',
+  dbConfig.PASSWORD || 'password',
   {
-    host: dbConfig.HOST,
-    dialect: dbConfig.dialect,
-    pool: dbConfig.pool
+    host: dbConfig.HOST || 'db',
+    dialect: 'mysql',
+    port: 3306
   }
 );
 
