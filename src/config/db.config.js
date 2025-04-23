@@ -1,16 +1,12 @@
-require('dotenv').config();
-
-const isDocker = process.env.RUNNING_IN_DOCKER === 'true';
-
 module.exports = {
-  HOST: isDocker ? 'mysql_db' : '127.0.0.1', // Nombre del contenedor
+  HOST: process.env.DB_HOST || 'db', // ¡Usa 'db' en Docker!
   USER: 'root',
   PASSWORD: 'password',
-  DB: 'test_db',
+  DB: 'notices_db',
   dialect: 'mysql',
   port: 3306,
   retry: {
-    max: 15,
-    timeout: 30000
+    max: 5,
+    timeout: 10000
   }
 };

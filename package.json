@@ -4,7 +4,7 @@
   "description": "API REST para un tablero de avisos con Koa.js y MySQL",
   "main": "src/app.js",
   "scripts": {
-    "start": "node src/app.js",
+    "start": "node --no-deprecation src/app.js",
     "dev": "nodemon src/app.js",
     "test": "jest --config jest.config.js",
     "test:watch": "jest --watch",

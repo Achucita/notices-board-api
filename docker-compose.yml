@@ -18,21 +18,24 @@ services:
 
   app:
     build: .
+    command: ["node", "--no-deprecation", "src/app.js"] 
     environment:
-      RUNNING_IN_DOCKER: 'true'
-      DB_HOST: mysql_db
-      NODE_ENV: test
+     - NODE_ENV=development
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=password
+      - DB_NAME=notices_db
     ports:
       - "3000:3000"
     depends_on:
       db:
         condition: service_healthy
+    stdin_open: true
+    tty: true
     networks:
       - app_net
 
 networks:
-  app_net:
+  default:
+    name: notices-board-net
     driver: bridge
-    ipam:
-      config:
-        - subnet: "172.25.0.0/16" # Nueva red exclusiva

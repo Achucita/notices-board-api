@@ -1,4 +1,3 @@
-// src/app.js
 const Koa = require('koa');
 const Router = require('@koa/router');
 const bodyParser = require('koa-bodyparser');
@@ -16,13 +15,31 @@ app.use(json());
 require('./routes/notice.routes')(router);
 app.use(router.routes()).use(router.allowedMethods());
 
-// Exporta la app SIN iniciar el servidor
-module.exports = app;
+// Función para iniciar el servidor
+const startServer = async () => {
+  try {
+    await db.sequelize.authenticate();
+    console.log('✅ Conexión a MySQL establecida');
+    
+    const PORT = process.env.PORT || 3000;
+    const server = app.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 Servidor escuchando en http://localhost:${PORT}`);
+    });
 
-// Solo inicia el servidor si no estamos en entorno de test
+    // Mantener el proceso activo
+    server.on('connection', (socket) => {
+      socket.setTimeout(5000);
+    });
+
+  } catch (error) {
+    console.error('❌ Error al iniciar:', error.message);
+    process.exit(1);
+  }
+};
+
+// Iniciar solo si no es test
 if (process.env.NODE_ENV !== 'test') {
-  const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
+  startServer();
 }
+
+module.exports = app;
