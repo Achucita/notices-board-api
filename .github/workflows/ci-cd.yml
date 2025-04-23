@@ -4,6 +4,20 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: test_db
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+          
     steps:
     - uses: actions/checkout@v4
     
@@ -20,7 +34,7 @@ jobs:
       run: npm test
       env:
         NODE_ENV: test
-        DB_HOST: localhost
+        DB_HOST: mysql       # Nombre del servicio Docker
         DB_USER: root
         DB_PASSWORD: password
         DB_NAME: test_db
@@ -28,7 +42,6 @@ jobs:
   deploy:
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' # Solo ejecutar en main
     steps:
     - uses: actions/checkout@v4
     
