@@ -16,13 +16,14 @@ jobs:
     - name: Install dependencies
       run: npm ci
       
-    - name: Run tests
-      run: npm test
-      env:
-        DB_HOST: localhost
-        DB_USER: root
-        DB_PASSWORD: password
-        DB_NAME: test_db
+- name: Run tests
+  run: npm test
+  env:
+    NODE_ENV: test
+    DB_HOST: 127.0.0.1  # Usa IPv4 explícitamente
+    DB_USER: root
+    DB_PASSWORD: password
+    DB_NAME: test_db
 
   deploy:
     needs: test
