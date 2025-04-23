@@ -1,15 +1,15 @@
-
+version: '3.8'
 services:
   db:
     image: mysql:8.0
-    container_name: mysql_db # Nombre fijo
+    container_name: mysql_db
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: test_db
+      MYSQL_DATABASE: notices_db  # Cambiado de "test_db" para coincidir con la app
     ports:
-      - "3307:3306" # Puerto alternativo
+      - "3306:3306"  # Puerto estándar de MySQL
     healthcheck:
-      test: mysqladmin ping -h 127.0.0.1 -u root -ppassword
+      test: mysqladmin ping -h 127.0.0.1 -u root --password=password  # Corregido "--password"
       interval: 5s
       timeout: 10s
       retries: 20
@@ -18,24 +18,23 @@ services:
 
   app:
     build: .
-    command: ["node", "--no-deprecation", "src/app.js"] 
+    command: ["node", "--no-deprecation", "src/app.js"]  # Corregido "-no-deprecation"
     environment:
-     - NODE_ENV=development
-      - DB_HOST=db
-      - DB_USER=root
-      - DB_PASSWORD=password
-      - DB_NAME=notices_db
+      MODE: development  # Corregido "MODE_FMY-development"
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: password
+      DB_NAME: notices_db
     ports:
       - "3000:3000"
     depends_on:
       db:
         condition: service_healthy
-    stdin_open: true
-    tty: true
     networks:
       - app_net
 
 networks:
-  default:
+  app_net:
     name: notices-board-net
+    external: false
     driver: bridge
