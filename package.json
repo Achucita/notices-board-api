@@ -1,0 +1,36 @@
+{
+  "name": "notices-board-api",
+  "version": "1.0.0",
+  "description": "API REST para un tablero de avisos con Koa.js y MySQL",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Achucita/notices-board-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Achucita/notices-board-api/issues"
+  },
+  "homepage": "https://github.com/Achucita/notices-board-api#readme",
+  "dependencies": {
+    "@koa/router": "^13.1.0",
+    "dotenv": "^16.5.0",
+    "koa": "^2.16.1",
+    "koa-bodyparser": "^4.4.1",
+    "koa-json": "^2.0.2",
+    "mysql2": "^3.14.0",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.10",
+    "supertest": "^7.1.0"
+  }
+}
